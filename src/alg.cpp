@@ -16,7 +16,6 @@ int countPairs1(int *arr, int len, int value) {
 int countPairs2(int *arr, int len, int value) {
     int count = 0;
     int left = 0, right = len - 1;
-
     while (left < right) {
         int sum = arr[left] + arr[right];
         if (sum == value) {
@@ -28,7 +27,6 @@ int countPairs2(int *arr, int len, int value) {
             while (right - count_right >= 0 && arr[right - count_right] == arr[right]) {
                 count_right++;
             }
-
             if (arr[left] != arr[right]) {
                 count += count_left * count_right;
                 left += count_left;
@@ -48,16 +46,19 @@ int countPairs2(int *arr, int len, int value) {
 }
 
 int countPairs3(int *arr, int len, int value) {
+    for (int i = 1; i < len; i++) {
+        if (arr[i] <= arr[i - 1]) {
+            return 0;
+        }
+    }
     int count = 0;
     for (int i = 0; i < len; i++) {
         int target = value - arr[i];
         if (target < arr[i]) {
             continue;
         }
-
         int left = i + 1;
         int right = len - 1;
-
         const int *first = std::lower_bound(arr + left, arr + right + 1, target);
         if (first > arr + right || *first != target) {
             continue;
