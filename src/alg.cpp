@@ -20,6 +20,7 @@ int countPairs2(int *arr, int len, int value) {
     while (left < right) {
         int sum = arr[left] + arr[right];
         if (sum == value) {
+            // Подсчет количества повторяющихся элементов
             int count_left = 1;
             while (left + count_left < len && arr[left + count_left] == arr[left]) {
                 count_left++;
@@ -36,7 +37,7 @@ int countPairs2(int *arr, int len, int value) {
             } else {
                 int n = right - left + 1;
                 count += n * (n - 1) / 2;
-                left = right + 1;
+                break;
             }
         } else if (sum < value) {
             left++;
@@ -51,9 +52,12 @@ int countPairs3(int *arr, int len, int value) {
     int count = 0;
     for (int i = 0; i < len; i++) {
         int target = value - arr[i];
+        if (target < arr[i]) {
+            continue; 
+        }
+
         int left = i + 1;
         int right = len - 1;
-
         int *first = std::lower_bound(arr + left, arr + right + 1, target);
         if (first > arr + right || *first != target) {
             continue;
